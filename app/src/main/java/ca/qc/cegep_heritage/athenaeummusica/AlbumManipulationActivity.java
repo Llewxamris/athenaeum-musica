@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -47,6 +48,7 @@ public class AlbumManipulationActivity extends AppCompatActivity {
 
 
         Button btnCommit = findViewById(R.id.btnCommit);
+        Button btnCancel = findViewById(R.id.btnCancle);
 
         edtxtName = findViewById(R.id.edtxtName);
         edtxtArtist = findViewById(R.id.edtxtArtist);
@@ -101,8 +103,23 @@ public class AlbumManipulationActivity extends AppCompatActivity {
                     album.setImage(convertDrawableToByteArray(imgBtnImage.getDrawable()));
                 }
 
-                db.insertAlbum(album);
+                try {
+                    db.insertAlbum(album);
+                    setResult(IntentCodes.ADD_ALBUM_SUCCESS);
+                    finish();
+                } catch (Exception e) {
+                    setResult(IntentCodes.ADD_ALBUM_FAIL);
+                    finish();
+                }
 
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(IntentCodes.ADD_ALBUM_CANCEL);
+                finish();
             }
         });
 

@@ -23,35 +23,32 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private DatabaseHandler db;
+    private ListView listViewAlbum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView listViewAlbum = findViewById(R.id.list);
+        listViewAlbum = findViewById(R.id.list);
         listViewAlbum.setVisibility(View.INVISIBLE);
 
         db = new DatabaseHandler(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, AlbumManipulationActivity.class));
+                startActivityForResult(new Intent(MainActivity.this, AlbumManipulationActivity.class),
+                        IntentCodes.ADD_ALBUM);
             }
         });
 
         if(db.numberOfRows() != 0) {
-            TextView txtViewEmpty = findViewById(R.id.txtViewEmpty);
-            txtViewEmpty.setVisibility(View.INVISIBLE);
-            List<Album> albums = db.getAllAlbums();
-            ListAdapter albumListView = new ListAdapter(this, R.layout.album_list_layout, albums);
-            listViewAlbum.setAdapter(albumListView);
-            listViewAlbum.setVisibility(View.VISIBLE);
+            generateList();
         }
     }
 
@@ -76,5 +73,32 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        switch (requestCode) {
+            case IntentCodes.ADD_ALBUM:
+                if(resultCode == IntentCodes.ADD_ALBUM_SUCCESS) {
+                    Snackbar.make(this.findViewById(R.id.mainContent), "New album added.", Snackbar.LENGTH_SHORT).show();
+                    generateList();
+                }
+                if(resultCode == IntentCodes.ADD_ALBUM_FAIL) {
+                    Snackbar.make(this.findViewById(R.id.mainContent), "An error has occurred.", Snackbar.LENGTH_SHORT).show();
+                }
+                if(resultCode == IntentCodes.ADD_ALBUM_CANCEL) {
+                    Snackbar.make(this.findViewById(R.id.mainContent), "Add album canceled.", Snackbar.LENGTH_SHORT).show();
+                }
+            break;
+        }
+    }
+
+    private void generateList() {
+        TextView txtViewEmpty = findViewById(R.id.txtViewEmpty);
+        txtViewEmpty.setVisibility(View.INVISIBLE);
+        List<Album> albums = db.getAllAlbums();
+        ListAdapter albumListView = new ListAdapter(this, R.layout.album_list_layout, albums);
+        listViewAlbum.setAdapter(albumListView);
+        listViewAlbum.setVisibility(View.VISIBLE);
     }
 }
