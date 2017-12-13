@@ -14,8 +14,10 @@ public class Album {
     public Album() {
     }
 
-    public Album(String name) {
+    public Album(String name, String genre, String format) {
         this.name = name;
+        this.genre = genre;
+        this.format = format;
     }
 
     public Album(String name, String artist, String genre, int releaseYear, String format, double price) {
@@ -80,5 +82,33 @@ public class Album {
 
     byte[] getImage() {
         return image;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }
