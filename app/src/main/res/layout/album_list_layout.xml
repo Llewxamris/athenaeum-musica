@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imgAlbum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/txtListArtist"
+        app:layout_constraintEnd_toStartOf="@+id/txtListName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_menu_gallery" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/txtListName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="[Album Name]"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/txtListArtist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="[Artist Name]"
+        app:layout_constraintStart_toStartOf="@+id/txtListName"
+        app:layout_constraintTop_toBottomOf="@+id/txtListName" />
+
+</LinearLayout>

@@ -3,6 +3,7 @@ package ca.qc.cegep_heritage.athenaeummusica;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -99,10 +100,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
     }
 
-//    public int numberOfRows(){
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        return (int) DatabaseUtils.queryNumEntries(db, ALBUMS_TABLE_NAME);
-//    }
+    public int numberOfRows(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        return (int) DatabaseUtils.queryNumEntries(db, ALBUMS_TABLE_NAME);
+    }
 
     public boolean updateAlbum (Album album)
     {

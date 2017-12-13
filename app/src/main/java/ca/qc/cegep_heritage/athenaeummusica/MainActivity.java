@@ -13,13 +13,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private DatabaseHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ListView listViewAlbum = findViewById(R.id.list);
+        listViewAlbum.setVisibility(View.INVISIBLE);
+
+        db = new DatabaseHandler(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -30,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, AlbumManipulationActivity.class));
             }
         });
+
+        if(db.numberOfRows() != 0) {
+            TextView txtViewEmpty = findViewById(R.id.txtViewEmpty);
+            txtViewEmpty.setVisibility(View.INVISIBLE);
+            List<Album> albums = db.getAllAlbums();
+            ListAdapter albumListView = new ListAdapter(this, R.layout.album_list_layout, albums);
+            listViewAlbum.setAdapter(albumListView);
+            listViewAlbum.setVisibility(View.VISIBLE);
+        }
     }
 
 
