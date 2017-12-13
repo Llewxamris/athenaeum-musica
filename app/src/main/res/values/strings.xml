@@ -1,8 +1,48 @@
 <resources>
     <string name="app_name">Athenaeum Musica</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
+
+    <!-- Album Manipulation Strings -->
+    <string name="add_album">Add an Album</string>
+    <string name="edit_album">Edit an Album</string>
+    <string name="name">Name</string>
+    <string name="artist">Artist</string>
+    <string name="release_year">Release Year</string>
+    <string name="price">Price</string>
+    <string name="button_add_album">Add Album</string>
+    <string name="button_edit_album">Edit Album</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="imgBtn_description">Image of the album.</string>
+
+    <!-- List of Genres -->
+    <string-array name="genres">
+        <item>Avant-garde</item>
+        <item>Blues</item>
+        <item>Classical</item>
+        <item>Country</item>
+        <item>Electronic</item>
+        <item>Folk</item>
+        <item>Funk</item>
+        <item>Hip-hop</item>
+        <item>International</item>
+        <item>Jazz</item>
+        <item>New age</item>
+        <item>Non-music</item>
+        <item>Pop</item>
+        <item>Reggae</item>
+        <item>Rock</item>
+        <item>Soundtrack</item>
+        <item>Other</item>
+    </string-array>
+
+    <!-- List of Formats -->
+    <string-array name="formats">
+        <item>CD</item>
+        <item>DVD</item>
+        <item>Tape</item>
+        <item>Vinyl 7\"</item>
+        <item>Vinyl 10\"</item>
+        <item>Vinyl 12\"</item>
+        <item>Other</item>
+    </string-array>
 </resources>

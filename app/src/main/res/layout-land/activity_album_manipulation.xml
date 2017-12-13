@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ca.qc.cegep_heritage.athenaeummusica.AlbumManipulationActivity"
+    tools:layout_editor_absoluteY="73dp">
+
+    <EditText
+        android:id="@+id/edtxtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="38dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="@string/name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toStartOf="@+id/edtxtReleaseYear"
+        app:layout_constraintStart_toEndOf="@+id/imgBtnImage"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imgBtnImage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/imgBtn_description"
+        app:layout_constraintBottom_toTopOf="@+id/ddlGenre"
+        app:layout_constraintEnd_toStartOf="@+id/edtxtName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edtxtName"
+        app:srcCompat="@drawable/ic_menu_camera" />
+
+    <EditText
+        android:id="@+id/edtxtArtist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="22dp"
+        android:ems="10"
+        android:hint="@string/artist"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/imgBtnImage"
+        app:layout_constraintTop_toBottomOf="@+id/edtxtName" />
+
+    <TextView
+        android:id="@+id/txtModifyHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:text="@string/add_album"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        app:layout_constraintBottom_toTopOf="@+id/imgBtnImage"
+        app:layout_constraintStart_toStartOf="@+id/imgBtnImage" />
+
+    <Spinner
+        android:id="@+id/ddlGenre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="27dp"
+        app:layout_constraintStart_toEndOf="@+id/imgBtnImage"
+        app:layout_constraintTop_toBottomOf="@+id/edtxtArtist" />
+
+    <EditText
+        android:id="@+id/edtxtReleaseYear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="40dp"
+        android:ems="10"
+        android:hint="@string/release_year"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/edtxtName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/edtxtName"
+        app:layout_constraintTop_toTopOf="@+id/edtxtName" />
+
+    <Spinner
+        android:id="@+id/ddlFormat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        app:layout_constraintStart_toStartOf="@+id/edtxtPrice"
+        app:layout_constraintTop_toBottomOf="@+id/edtxtPrice" />
+
+    <EditText
+        android:id="@+id/edtxtPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:ems="10"
+        android:hint="@string/price"
+        android:inputType="numberDecimal"
+        app:layout_constraintStart_toStartOf="@+id/edtxtReleaseYear"
+        app:layout_constraintTop_toBottomOf="@+id/edtxtReleaseYear" />
+
+    <Button
+        android:id="@+id/btnCommit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="17dp"
+        android:layout_marginEnd="31dp"
+        android:text="@string/button_add_album"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnCancle" />
+
+    <Button
+        android:id="@+id/btnCancle"
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="17dp"
+        android:layout_marginEnd="40dp"
+        android:text="@string/button_cancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</android.support.constraint.ConstraintLayout>
