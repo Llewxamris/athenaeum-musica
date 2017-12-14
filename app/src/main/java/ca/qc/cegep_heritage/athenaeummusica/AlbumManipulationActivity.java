@@ -1,7 +1,9 @@
 package ca.qc.cegep_heritage.athenaeummusica;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -18,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
 
 public class AlbumManipulationActivity extends AppCompatActivity {
 
@@ -46,6 +49,8 @@ public class AlbumManipulationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = getSharedPreferences(PreferenceCodes.SETTINGS, Context.MODE_PRIVATE);
+        setTheme(sharedPreferences.getInt(PreferenceCodes.THEME, R.style.AppTheme));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_manipulation);
 
@@ -97,6 +102,7 @@ public class AlbumManipulationActivity extends AppCompatActivity {
             edtxtName.setText(editAlbum.getName());
             ddlGenres.setSelection(genrePosition);
             ddlFormat.setSelection(formatPosition);
+            imgBtnImage.setImageDrawable(convertByteArrayToDrawable(editAlbum.getImage()));
 
             if(editAlbum.getArtist() != null) {
                 edtxtArtist.setText(editAlbum.getArtist());
@@ -135,9 +141,7 @@ public class AlbumManipulationActivity extends AppCompatActivity {
                     album.setReleaseYear(Integer.valueOf(edtxtReleaseYear.getText().toString()));
                 }
 
-                if(imageWasSet) {
-                    album.setImage(convertDrawableToByteArray(imgBtnImage.getDrawable()));
-                }
+                album.setImage(convertDrawableToByteArray(imgBtnImage.getDrawable()));
 
                 if(isEdit) {
                     try {
@@ -222,6 +226,10 @@ public class AlbumManipulationActivity extends AppCompatActivity {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         return stream.toByteArray();
+    }
+
+    private Drawable convertByteArrayToDrawable(byte[] b) {
+        return new BitmapDrawable(getResources(),BitmapFactory.decodeByteArray(b, 0, b.length));
     }
 
 }

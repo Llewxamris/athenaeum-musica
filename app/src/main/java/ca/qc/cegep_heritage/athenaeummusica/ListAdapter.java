@@ -56,10 +56,9 @@ public class ListAdapter extends ArrayAdapter<Album> {
             }
 
             if(album.getImage() != null) {
-                // Add Image
                 byte[] b = album.getImage();
                 Drawable image = new BitmapDrawable(v.getResources(), BitmapFactory.decodeByteArray(b, 0, b.length));
-                imgAlbum.setBackground(image);
+                imgAlbum.setImageDrawable(image);
             }
         }
 

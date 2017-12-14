@@ -1,7 +1,11 @@
 package ca.qc.cegep_heritage.athenaeummusica;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -10,10 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.util.Log;
 
 import java.util.List;
 
@@ -24,6 +26,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = getSharedPreferences(PreferenceCodes.SETTINGS, Context.MODE_PRIVATE);
+
+        // Check if any preferences have already been set. If no, generate the defaults.
+        if(sharedPreferences.getInt(PreferenceCodes.THEME, 0) == 0) {
+            SharedPreferences.Editor editSharedPrefs = sharedPreferences.edit();
+            editSharedPrefs.putInt(PreferenceCodes.THEME, R.style.AppTheme);
+            editSharedPrefs.apply();
+        }
+
+        setTheme(sharedPreferences.getInt(PreferenceCodes.THEME, R.style.AppTheme));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -77,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            startActivity(new Intent(this, SettingsActivity.class));
         }
 
         return super.onOptionsItemSelected(item);

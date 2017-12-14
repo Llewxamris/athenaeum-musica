@@ -1,14 +1,19 @@
 package ca.qc.cegep_heritage.athenaeummusica;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ViewAlbumActivity extends AppCompatActivity {
@@ -21,9 +26,12 @@ public class ViewAlbumActivity extends AppCompatActivity {
     TextView txtViewReleaseDate;
     TextView txtViewGenre;
     TextView txtViewFormat;
+    ImageView imgDisplayImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = getSharedPreferences(PreferenceCodes.SETTINGS, Context.MODE_PRIVATE);
+        setTheme(sharedPreferences.getInt(PreferenceCodes.THEME, R.style.AppTheme));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_album);
 
@@ -33,6 +41,7 @@ public class ViewAlbumActivity extends AppCompatActivity {
         txtViewReleaseDate= findViewById(R.id.txtViewReleaseDate);
         txtViewGenre = findViewById(R.id.txtViewGenre);
         txtViewFormat = findViewById(R.id.txtViewFormat);
+        imgDisplayImage = findViewById(R.id.imgDisplayImage);
 
         ImageButton imgbtnEdit = findViewById(R.id.imgbtnEdit);
         ImageButton imgbtnDelete = findViewById(R.id.imgbtnDelete);
@@ -118,6 +127,12 @@ public class ViewAlbumActivity extends AppCompatActivity {
             txtViewReleaseDate.setText(String.valueOf(album.getReleaseYear()));
         } else {
             txtViewReleaseDate.setText(" - ");
+        }
+
+        if(album.getImage() != null) {
+            byte[] b = album.getImage();
+            Drawable image = new BitmapDrawable(getResources(), BitmapFactory.decodeByteArray(b, 0, b.length));
+            imgDisplayImage.setImageDrawable(image);
         }
     }
 }
