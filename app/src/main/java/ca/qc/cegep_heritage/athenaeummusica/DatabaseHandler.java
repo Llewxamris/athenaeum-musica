@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -55,18 +56,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(ALBUMS_COLUMN_NAME, album.getName());
-        contentValues.put(ALBUMS_COLUMN_FORMAT, album.getArtist());
+        contentValues.put(ALBUMS_COLUMN_FORMAT, album.getFormat());
         contentValues.put(ALBUMS_COLUMN_GENRE, album.getGenre());
 
         if(album.getArtist() != null) {
             contentValues.put(ALBUMS_COLUMN_ARTIST, album.getArtist());
         }
 
-        if(album.getReleaseYear() == -1) {
+        if(album.getReleaseYear() != -1) {
             contentValues.put(ALBUMS_COLUMN_RELEASE_YEAR, album.getReleaseYear());
         }
 
-        if(album.getPrice() == -1) {
+        if(album.getPrice() != -1) {
             contentValues.put(ALBUMS_COLUMN_PRICE, album.getPrice());
         }
 
@@ -105,7 +106,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return (int) DatabaseUtils.queryNumEntries(db, ALBUMS_TABLE_NAME);
     }
 
-    public boolean updateAlbum (Album album)
+    boolean updateAlbum(Album album)
     {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -118,11 +119,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             contentValues.put(ALBUMS_COLUMN_ARTIST, album.getArtist());
         }
 
-        if(album.getReleaseYear() == -1) {
+        if(album.getReleaseYear() != -1) {
             contentValues.put(ALBUMS_COLUMN_RELEASE_YEAR, album.getReleaseYear());
         }
 
-        if(album.getPrice() == -1) {
+        if(album.getPrice() != -1) {
             contentValues.put(ALBUMS_COLUMN_PRICE, album.getPrice());
         }
 
@@ -130,15 +131,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             contentValues.put(ALBUMS_COLUMN_IMAGE, album.getImage());
         }
 
-        try {
-            db.update(ALBUMS_TABLE_NAME, contentValues, "id = ? ", new String[] {
-                    Integer.toString(album.getId())
-            });
-            return true;
-        } catch (Exception ex) {
-            return false;
-        }
-
+        db.update(ALBUMS_TABLE_NAME, contentValues, "id = ? ", new String[] {
+            Integer.toString(album.getId())
+        });
+        return true;
     }
 
     public boolean deleteAlbum (int id)

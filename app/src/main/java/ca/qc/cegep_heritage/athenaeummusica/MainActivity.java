@@ -5,18 +5,15 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
+import android.util.Log;
 
 import java.util.List;
 
@@ -50,6 +47,17 @@ public class MainActivity extends AppCompatActivity {
         if(db.numberOfRows() != 0) {
             generateList();
         }
+
+        listViewAlbum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView albumId = view.findViewById(R.id.txtListId);
+                Intent editIntent = new Intent(MainActivity.this, ViewAlbumActivity.class);
+                editIntent.putExtra(IntentCodes.VIEW_ALBUM_ID,
+                        Integer.parseInt(albumId.getText().toString()));
+                startActivityForResult(editIntent, IntentCodes.VIEW_ALBUM);
+            }
+        });
     }
 
 
@@ -89,7 +97,12 @@ public class MainActivity extends AppCompatActivity {
                 if(resultCode == IntentCodes.ADD_ALBUM_CANCEL) {
                     Snackbar.make(this.findViewById(R.id.mainContent), "Add album canceled.", Snackbar.LENGTH_SHORT).show();
                 }
-            break;
+                break;
+            case IntentCodes.VIEW_ALBUM:
+                if(resultCode == IntentCodes.VIEW_ALBUM_DELETE) {
+                    Snackbar.make(this.findViewById(R.id.mainContent), "Album deleted.", Snackbar.LENGTH_SHORT).show();
+                    generateList();
+                }
         }
     }
 

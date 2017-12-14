@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 
@@ -37,8 +38,10 @@ public class AlbumManipulationActivity extends AppCompatActivity {
     private ImageButton imgBtnImage;
     private Spinner ddlGenres;
     private Spinner ddlFormat;
-    private DatabaseHandler db;
+    private DatabaseHandler db = new DatabaseHandler(this);;
     private boolean imageWasSet;
+    private boolean isEdit = false;
+    private Album editAlbum = null;
 
 
     @Override
@@ -49,6 +52,13 @@ public class AlbumManipulationActivity extends AppCompatActivity {
 
         Button btnCommit = findViewById(R.id.btnCommit);
         Button btnCancel = findViewById(R.id.btnCancle);
+
+
+
+        if(getIntent().getIntExtra(IntentCodes.VIEW_ALBUM_ID, -1) != -1) {
+            isEdit = true;
+            editAlbum = db.getAlbum(getIntent().getIntExtra(IntentCodes.VIEW_ALBUM_ID, -1));
+        }
 
         edtxtName = findViewById(R.id.edtxtName);
         edtxtArtist = findViewById(R.id.edtxtArtist);
@@ -80,6 +90,32 @@ public class AlbumManipulationActivity extends AppCompatActivity {
             }
         });
 
+        if(isEdit) {
+            int genrePosition = genreAdapter.getPosition(editAlbum.getGenre());
+            int formatPosition = formatAdapter.getPosition(editAlbum.getFormat());
+
+            edtxtName.setText(editAlbum.getName());
+            ddlGenres.setSelection(genrePosition);
+            ddlFormat.setSelection(formatPosition);
+
+            if(editAlbum.getArtist() != null) {
+                edtxtArtist.setText(editAlbum.getArtist());
+            }
+
+            if(editAlbum.getReleaseYear() != -1) {
+                edtxtReleaseYear.setText(String.valueOf(editAlbum.getReleaseYear()));
+            }
+
+            if(editAlbum.getPrice() != -1) {
+                edtxtPrice.setText(String.valueOf(editAlbum.getPrice()));
+            }
+
+            btnCommit.setText(getResources().getString(R.string.edit_album));
+
+            TextView txtModifyHeader = findViewById(R.id.txtModifyHeader);
+            txtModifyHeader.setText("Edit an Album");
+        }
+
         btnCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,13 +139,25 @@ public class AlbumManipulationActivity extends AppCompatActivity {
                     album.setImage(convertDrawableToByteArray(imgBtnImage.getDrawable()));
                 }
 
-                try {
-                    db.insertAlbum(album);
-                    setResult(IntentCodes.ADD_ALBUM_SUCCESS);
-                    finish();
-                } catch (Exception e) {
-                    setResult(IntentCodes.ADD_ALBUM_FAIL);
-                    finish();
+                if(isEdit) {
+                    try {
+                        album.setId(editAlbum.getId());
+                        db.updateAlbum(album);
+                        setResult(IntentCodes.EDIT_ALBUM_SUCCESS);
+                        finish();
+                    } catch (Exception e) {
+                        setResult(IntentCodes.EDIT_ALBUM_FAIL);
+                        finish();
+                    }
+                } else {
+                    try {
+                        db.insertAlbum(album);
+                        setResult(IntentCodes.ADD_ALBUM_SUCCESS);
+                        finish();
+                    } catch (Exception e) {
+                        setResult(IntentCodes.ADD_ALBUM_FAIL);
+                        finish();
+                    }
                 }
 
             }
@@ -118,11 +166,15 @@ public class AlbumManipulationActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(IntentCodes.ADD_ALBUM_CANCEL);
-                finish();
+                if(isEdit) {
+                    setResult(IntentCodes.EDIT_ALBUM_CANCEL);
+                    finish();
+                } else {
+                    setResult(IntentCodes.ADD_ALBUM_CANCEL);
+                    finish();
+                }
             }
         });
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

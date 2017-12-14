@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class ListAdapter extends ArrayAdapter<Album> {
@@ -38,12 +40,14 @@ public class ListAdapter extends ArrayAdapter<Album> {
 
         TextView txtAlbumName = v.findViewById(R.id.txtListName);
         TextView txtListArtist = v.findViewById(R.id.txtListArtist);
+        TextView txtListId = v.findViewById(R.id.txtListId);
         ImageView imgAlbum = v.findViewById(R.id.imgAlbum);
 
         Album album = getItem(position);
 
         if (album != null) {
             txtAlbumName.setText(album.getName());
+            txtListId.setText(String.valueOf(album.getId()));
 
             if(album.getArtist() != null) {
                 txtListArtist.setText(album.getArtist());
@@ -51,7 +55,7 @@ public class ListAdapter extends ArrayAdapter<Album> {
                 txtListArtist.setText("");
             }
 
-            if(album.getImage() != null){
+            if(album.getImage() != null) {
                 // Add Image
                 byte[] b = album.getImage();
                 Drawable image = new BitmapDrawable(v.getResources(), BitmapFactory.decodeByteArray(b, 0, b.length));
