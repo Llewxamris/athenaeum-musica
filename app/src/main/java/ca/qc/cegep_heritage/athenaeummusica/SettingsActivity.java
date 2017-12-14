@@ -53,5 +53,13 @@ public class SettingsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        Button btnReset = findViewById(R.id.btnReset);
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsActivity.this.deleteDatabase("athenaeum_musica.db");
+            }
+        });
     }
 }

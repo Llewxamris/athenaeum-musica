@@ -119,7 +119,7 @@ public class AlbumManipulationActivity extends AppCompatActivity {
             btnCommit.setText(getResources().getString(R.string.edit_album));
 
             TextView txtModifyHeader = findViewById(R.id.txtModifyHeader);
-            txtModifyHeader.setText("Edit an Album");
+            txtModifyHeader.setText("Save Album");
         }
 
         btnCommit.setOnClickListener(new View.OnClickListener() {
